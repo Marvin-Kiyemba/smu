@@ -1,0 +1,26 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Password reset on 127.0.0.1:8000
+From: webmaster@localhost
+To: marvin.kiyemba@strongminds.org
+Date: Fri, 27 Jan 2023 13:18:16 -0000
+Message-ID: 
+ <167482549611.1322.4143576874537568141@1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa>
+
+
+You're receiving this email because you requested a password reset for your user account at 127.0.0.1:8000.
+
+Please go to the following page and choose a new password:
+
+http://127.0.0.1:8000/assetsaccountsreset/MQ/biosyg-839da975299726ee571201c38a49a2b2/
+
+Your username, in case you’ve forgotten: marvin.kiyemba@strongminds.org
+
+Thanks for using our site!
+
+The 127.0.0.1:8000 team
+
+
+
+-------------------------------------------------------------------------------
