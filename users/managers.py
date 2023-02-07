@@ -3,9 +3,18 @@ from django.contrib.auth.models import BaseUserManager
 from . import constants as user_constants
 
 
-class UserManager(BaseUserManager):
-    def create_user(self, email, password, **extra_fields):
+from django.conf import settings
+User = settings.AUTH_USER_MODEL
 
+class UserManager(BaseUserManager):
+    """
+    Custom user model manager where email is the unique identifiers
+    for authentication instead of usernames.
+    """
+    def create_user(self, email, password, **extra_fields):
+        """
+        Creates and saves a user with the given email and password.
+        """
         if not email:
             raise ValueError('The Email must be set')
         email = self.normalize_email(email)
@@ -15,10 +24,16 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password, **extra_fields):
+        """
+        Creates and saves a SuperUser with the given email and password.
+        """
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_active', True)
         extra_fields.setdefault('user_type', user_constants.SUPERUSER)
+        
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError("Superuser must have is_staff=True.")
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
         return self.create_user(email, password, **extra_fields)

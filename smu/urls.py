@@ -24,4 +24,5 @@ urlpatterns = [
     path('records/', include("records.urls")),
     path("assets/", include("assets.urls")),
     path("dashboard/", include("dashboard.urls")),
+
 ]

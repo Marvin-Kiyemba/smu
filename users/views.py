@@ -1,26 +1,32 @@
 from django.shortcuts import render
-
 # Create your views here.
 
 from pyexpat.errors import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView
-from .forms import UserCreationForm
+from .forms import SignUpForm
 from django.urls import reverse_lazy
-from django.shortcuts import get_object_or_404, render
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
-from assets.models import Asset
-from records.models import Record
-from django.contrib.auth.models import User
+from users.managers import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
 
-class SignUpView(CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy("login")
-    template_name = "registration/signup.html"
+def signup(request):
+    msg = None
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            msg = 'User Created'
+            return redirect('login')
+        else:
+            msg = 'Form is not valid'
+    else:
+        form = SignUpForm()
+    return render(request, 'registration/signup.html')
 
 def admin_login(request):
     try:

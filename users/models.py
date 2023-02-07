@@ -4,9 +4,11 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
-from users.managers import UserManager
+from .managers import UserManager
 from . import constants as user_constants
 
+from django.conf import settings
+User = settings.AUTH_USER_MODEL
 class User(AbstractUser):
     username = None # remove username field, we will use email as unique identifier
     email = models.EmailField(unique=True, null=True, db_index=True)
@@ -20,6 +22,8 @@ class User(AbstractUser):
 
     objects = UserManager()
 
+    class Meta(AbstractUser.Meta):
+        pass
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True,related_name="user_profile")
