@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import UserProfile, User
-from .forms import CustomUserCreationForm, CustomUserChangeForm
+from users.forms import CustomUserCreationForm, CustomUserChangeForm
 from django.utils.translation import gettext as _
 from assets.models import Asset
 from records.models import Record

@@ -9,8 +9,11 @@ class SignUpForm(UserCreationForm):
         fields = ('email',)
 
 
+class CustomUserCreationForm(UserChangeForm):
+    class Meta:
+        model = User
+        fields = ('email',)
 class CustomUserChangeForm(UserChangeForm):
-
     class Meta:
         model = User
         fields = ('email',)

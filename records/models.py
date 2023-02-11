@@ -5,7 +5,6 @@ from django.db import models
 from assets.models import Asset
 from users.models import User
 from django.contrib import admin
-import uuid
 
 from pygments.formatters.html import HtmlFormatter
 

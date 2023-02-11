@@ -16,6 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView, TemplateView
+from records import views
+from rest_framework import routers
+
+
+router = routers.DefaultRouter()
+router.register(r'records', views.RecordView, 'records')
+router.register(r'assets', views.AssetView, 'assets')
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,5 +33,6 @@ urlpatterns = [
     path('records/', include("records.urls")),
     path("assets/", include("assets.urls")),
     path("dashboard/", include("dashboard.urls")),
+    path('api/', include(router.urls))
 
 ]

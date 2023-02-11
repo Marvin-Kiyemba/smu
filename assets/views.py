@@ -4,6 +4,7 @@ from django.shortcuts import render
 
 from users.models import User
 from assets.models import Asset
+from records.models import Record
 from django.views import generic
 from django.http import Http404
 
@@ -28,9 +29,5 @@ def index(request):
     return render(request, 'index.html', context=context)
 
 def AssetListView(request,):
-
-    try:
-        asset = Asset.objects.get().asset_type
-    except Asset.DoesNotExist:
-        raise Http404('Asset does not exist')
-    return render(request, 'assets/asset_list.html', context={'asset': asset})
+    records = Record.objects.all()
+    return render(request, 'home.html', {'records':records})
