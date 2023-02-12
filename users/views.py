@@ -3,6 +3,7 @@ from django.shortcuts import render
 from users.constants import USER_TYPE_CHOICES as user_constants
 from users.models import User
 from records.models import Record
+from assets.models import Asset
 from pyexpat.errors import messages
 from django.shortcuts import redirect
 from django.template import RequestContext
@@ -90,13 +91,11 @@ def show_records(request, assigned_to_id):
     return render(request, 'dashboard.html', {'records': records})
 
 def search_records(request):
-    q = request.GET.get('q')
-    if q:
-        assigned_to = User.objects.filter(email__icontains=q)
-        records = Record.objects.filter(assigned_to__in=assigned_to)
-    else:
-        records = Record.objects.all()
-    return render(request, 'dashboard.html', {'records': records})
+    email = request.GET.get('assigned_to')
+    user = User.objects.get(email=email)
+    records = Record.objects.filter(assigned_to=user.id)
+    context = {'records': records}
+    return render(request, 'dashboard.html', context)
 
 def accounts(request):
     users = User.objects.all()
@@ -106,3 +105,15 @@ def accounts(request):
     search_query = request.GET.get('search_query', '')
     users = User.objects.filter(email__icontains=search_query)
     return render(request, 'users.html', {'users': users})
+
+def assets(request):
+    assets = Asset.objects.all()
+    return render(request, 'assets.html', {'assets': assets})
+
+def search_assets(request):
+    query = request.GET.get('q')
+    if query:
+        assets = Asset.objects.filter(asset_type__icontains=query) | Asset.objects.filter(asset_code__icontains=query)
+    else:
+        assets = Asset.objects.all()
+    return render(request, 'assets.html', {'assets': assets})

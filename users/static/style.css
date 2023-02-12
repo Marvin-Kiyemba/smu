@@ -42,3 +42,49 @@ th, td {
     padding: 8px;
     text-align: left;
 }
+.search-form {
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+  padding: 20px;
+}
+
+.search-form input[type='text'] {
+  width: 70%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid gray;
+}
+
+.search-form input[type='submit'] {
+  width: 20%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid gray;
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+.search-results {
+  width: 80%;
+  margin: 20px auto;
+  text-align: left;
+  padding: 20px;
+}
+
+.search-results table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.search-results th, .search-results td {
+  border: 1px solid gray;
+  padding: 10px;
+}
+
+.search-results th {
+  background-color: lightgray;
+  text-align: left;
+}

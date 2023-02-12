@@ -33,6 +33,6 @@ urlpatterns = [
     path('records/', include("records.urls")),
     path("assets/", include("assets.urls")),
     path("dashboard/", include("dashboard.urls")),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
 
 ]

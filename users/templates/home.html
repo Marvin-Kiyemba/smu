@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+        
 {% if user.is_authenticated %}
     Hi {{ user.email }}! <br>
     <a href ="{% url 'dashboard' %}">View Dashboard</a>
@@ -13,3 +13,4 @@
 
     {% endif %}
     {% endblock %}
+    
