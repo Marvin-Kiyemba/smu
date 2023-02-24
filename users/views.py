@@ -1,10 +1,10 @@
 from django.shortcuts import render
 # Create your views here.
 from users.constants import USER_TYPE_CHOICES as user_constants
-from users.models import User
+from users.models import User, UserProfile
 from records.models import Record
 from assets.models import Asset
-from pyexpat.errors import messages
+from django.contrib import messages
 from django.shortcuts import redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
@@ -13,26 +13,32 @@ from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.contrib.auth import logout
-from django.contrib.auth import authenticate
+from django.shortcuts import get_object_or_404
+from .forms import SignUpForm, AssetForm
+from django.contrib.auth.decorators import user_passes_test
 
-@login_required
+@user_passes_test(lambda u: u.is_superuser)
 def add_user(request):
-    if request.user.user_type != user_constants.SUPERUSER:
-        raise PermissionDenied
+    if request.user.user_type != User.SUPER_USER:
+        raise PermissionDenied("You do not have permission to add user")
+    
     if request.method == 'POST':
-        email = request.POST.get('email')
-        user_type = request.POST.get('user_type')
-        user = User.objects.create(
-            email=email,
-            user_type=user_type,
-        )
-        return redirect('accounts')
-    return render(request, 'registration/add_user.html')
+        form = SignUpForm()
+        if form.is_valid():
+            user = form.save(commit=False)
+            if not user.user_type:
+                user.user_type = User.STAFF
+            user.save()
+            messages.success(request,'User added Successfully')
+            return redirect('accounts')
+    else:
+        form = SignUpForm()
+    return render(request, 'registration/add_user.html', {'form':form})
 
 def admin_login(request):
     try:
         if request.user.is_authenticated:
-            return redirect('dashboard/')
+            return redirect('dashboard')
         #messages.info(request,'Account not found')
         if request.method == 'POST':
                 email = request.POST.get('email')
@@ -55,7 +61,7 @@ def admin_login(request):
         print(e)
 
 
-def user_login(request):
+def login(request):
     context = RequestContext(request)
     if request.method == 'POST':
         email = request.POST['email']
@@ -76,10 +82,16 @@ def user_login(request):
     else:
         #the login is a GET request, so just show the user thee login form
         return render('registration/login.html', {}, context)
+    
+@login_required
+def dashboard(request): 
+    user = request.user
+    if user.is_superuser:
+        records = Record.objects.all()
+    else:
+       records = Record.objects.filter(assigned_to__user_profile__user__department=user.department)
+    return render(request, 'dashboard.html', {'records': records})
 
-def dashboard(request):
-    records = Record.objects.all()
-    return render(request, 'dashboard.html', {'records':records})
 
 def logout_view(request):
     print("Logout view called")
@@ -90,7 +102,7 @@ def show_records(request, assigned_to_id):
     records = Record.objects.filter(assigned_to_id=assigned_to_id)
     return render(request, 'dashboard.html', {'records': records})
 
-def search_records(request):
+def search_records(request, email):
     email = request.GET.get('assigned_to')
     user = User.objects.get(email=email)
     records = Record.objects.filter(assigned_to=user.id)
@@ -117,3 +129,24 @@ def search_assets(request):
     else:
         assets = Asset.objects.all()
     return render(request, 'assets.html', {'assets': assets})
+
+def user_profile(request, pk):
+    user_profile = get_object_or_404(UserProfile, pk=pk)
+    context = {'user_profile': user_profile}
+    return render(request, 'user_profile.html', context)
+
+@login_required
+def add_asset(request):
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = AssetForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            asset = form.save(commit=False)
+            asset.added_by = request.user
+            asset.save()
+            messages.success(request, 'Asset added successfully.')
+            return redirect('assets')
+    else:
+            form = AssetForm()
+    return render(request, 'add_asset.html', {'form': form})

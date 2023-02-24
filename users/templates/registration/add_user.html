@@ -1,18 +1,11 @@
-<h1>Add User</h1>
+{% extends 'base.html' %}
 
-<form method="post">
-  {% csrf_token %}
-  <div>
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email">
-  </div>
-  <div>
-    <label for="user_type">User Type:</label>
-    <select id="user_type" name="user_type">
-      {% for value, label in user_constants.USER_TYPE_CHOICES %}
-        <option value="{{ value }}" {% if value == user_constants.SUPERUSER %}selected{% endif %}>{{ label }}</option>
-      {% endfor %}
-    </select>
-  </div>
-  <input type="submit" value="Add User">
-</form>
+{% block content %}
+<div class="container"></div>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Add user</button>
+  </form>
+</div>
+{% endblock %}

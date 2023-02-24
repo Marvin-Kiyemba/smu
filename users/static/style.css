@@ -88,3 +88,91 @@ th, td {
   background-color: lightgray;
   text-align: left;
 }
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  text-align: center;
+}
+
+h1 {
+  font-size: 36px;
+  color: #333;
+  margin-top: 50px;
+}
+
+form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #ccc;
+  margin-top: 50px;
+  width: 400px;
+  display: inline-block;
+}
+
+form p {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+form input[type="text"], form input[type="password"] 
+{
+  width: 100%;
+  padding: 10px;
+  font-size: 18px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button[type="submit"] {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #555;
+}
+ /* Some basic styling to the sign up form */
+ .form-group label {
+  font-weight: bold;
+}
+.form-group input[type="email"],
+.form-group select {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  font-weight: bold;
+}
+.landing-page {
+  position: relative;
+  text-align: center;
+}
+.landing-page img {
+  width: 100%;
+  height: auto;
+}
+.landing-page h1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+.ml-auto > li:last-child {
+  margin-left: auto;
+}

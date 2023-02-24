@@ -38,4 +38,5 @@ class Asset(models.Model):
 
     def __str__(self):
         return f'({self.asset_type}) ({self.asset_code})'
-
+    
+    
